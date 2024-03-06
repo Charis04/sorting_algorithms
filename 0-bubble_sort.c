@@ -1,5 +1,14 @@
 #include "sort.h"
 
+/**
+ * bubble_sort - Sorts an array of ints in asc order
+ * @array: the array of ints to be sorted
+ * @size: size of the array
+ *
+ * Return: Nothing
+ *
+ */
+
 void bubble_sort(int *array, size_t size)
 {
 	size_t i, j;
