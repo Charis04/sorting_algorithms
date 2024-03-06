@@ -12,6 +12,9 @@ void insertion_sort_list(listint_t **list)
 	listint_t *prn = *list;
 	listint_t *bac, *temp, *tp, *beh, *fro, *hold;
 
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
+		return;
+
 	while (fow->next)
 	{
 		hold = fow;
