@@ -1,4 +1,27 @@
-#include "sort.h"
+#include "sort.hi"
+
+/**
+ * swap_nodes - Swap two nodes in a listint_t doubly-linked list.
+ * (just to put a diff)
+ * @h: A pointer to the head of the doubly-linked list.
+ * @n1: A pointer to the first node to swap.
+ * @n2: The second node to swap.
+ */
+void swap_nodes(listint_t **h, listint_t **n1, listint_t *n2)
+{
+	(*n1)->next = n2->next;
+	if (n2->next != NULL)
+		n2->next->prev = *n1;
+	n2->prev = (*n1)->prev;
+	n2->next = *n1;
+	if ((*n1)->prev != NULL)
+		(*n1)->prev->next = n2;
+	else
+		*h = n2;
+	(*n1)->prev = n2;
+	*n1 = n2->prev;
+	/* extra diff */
+}
 
 /**
  * insertion_sort_list - sorts a doubly linked list in asc order
@@ -8,53 +31,19 @@
 
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *fow = *list;
-	listint_t *prn = *list;
-	listint_t *bac, *temp, *tp, *beh, *fro, *hold;
+	listint_t *iter, *insert, *tmp;
 
 	if (list == NULL || *list == NULL || (*list)->next == NULL)
 		return;
 
-	while (fow->next)
+	for (iter = (*list)->next; iter != NULL; iter = tmp)
 	{
-		hold = fow;
-		temp = fow->next;
-		bac = fow;
-		if (temp->n && temp->n < bac->n)
+		tmp = iter->next;
+		insert = iter->prev;
+		while (insert != NULL && iter->n < insert->n)
 		{
-			while (temp->n < bac->n)
-			{
-				fro = temp->next;
-				beh = temp->prev;
-				beh->next = fro;
-				if (temp->next != NULL)
-					fro->prev = beh;
-				if (bac->prev == NULL)
-				{
-					temp->next = bac;
-					bac->prev = temp;
-					temp->prev = NULL;
-					*list = temp;
-					prn = *list;
-				}
-				else
-				{
-					tp = beh->prev;
-					tp->next = temp;
-					beh->prev = temp;
-					temp->prev = tp;
-					temp->next = beh;
-					bac = bac->prev;
-				}
-				print_list(prn);
-				bac = bac->prev;
-
-			}
-			fow = hold;
-		}
-		else
-		{
-			fow = fow->next;
+			swap_nodes(list, &insert, iter);
+			print_list((const listint_t *)*list);
 		}
 	}
 }
